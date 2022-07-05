@@ -10,17 +10,17 @@ https://github.com/CyberJosie/Pretty-Little-Package-Installer
 """
 
 SEP = '====================='
-APP_NAME = ''   # Enter the name of the app the dependencies are for.
-APP_VERSION = ''    # Enter an app version or leave blank
+APP_NAME = ''
+APP_VERSION = ''
 
 # Write APT packages here
 APT_PACKAGES = [
-    # "python3-scapy"
+
 ]
 
 # Write PIP packages here
 PIP_PACKAGES = [
-    # "numpy"
+
 ]
 
 class Color:
@@ -69,10 +69,13 @@ def check_dependencies():
     c = Color()
     apt_output = {}
     pip3_output = {}
+    missing_apt = 0
+    missing_pip = 0
 
     for apt_pkg in APT_PACKAGES:
         if not is_apt_installed(apt_pkg):
             apt_output[apt_pkg] = "No"
+            missing_apt+=1
         else:
             apt_output[apt_pkg] = "Yes"
     
@@ -81,9 +84,16 @@ def check_dependencies():
             pip3_output[pip_pkg] = "Yes"
         else:
             pip3_output[pip_pkg] = "No"
+            missing_pip+=1
+    
     
     print(f'{SEP}\n {c.yellow}APT Package Status:{c.reset}\n{SEP}\n{json.dumps(apt_output, indent=2)}\n')
     print(f'{SEP}\n {c.yellow}PIP Package Satatus:{c.reset}\n{SEP}\n{json.dumps(pip3_output, indent=2)}\n')
+    print(f'{c.green}INFO:{c.reset} Missing {missing_apt} APT packages and {missing_pip} PIP packages.')
+    if missing_pip  == 0 and missing_apt == 0:
+        print(c.red+'Done.'+c.reset)
+        exit()
+    
 
     return apt_output, pip3_output
 
