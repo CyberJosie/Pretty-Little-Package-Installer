@@ -114,7 +114,7 @@ def install_missing_depenencies(apt_output, pip3_output):
     for pkg in list(pip3_output.keys()):
         if pip3_output[pkg] != "Yes":
             print(f'{c.green}INFO:{c.reset} PIP Package {c.cyan}{pkg}{c.reset} is not installed, installing now...')
-            os.system(f"sudo python3 -m pip install {c.cyan}{pkg}{c.reset}")
+            os.system(f"sudo python3 -m pip install {pkg}")
             time.sleep(0.5)
             if is_pip_installed(pkg):
                 print(f'{c.green}INFO:{c.reset} Successfully installed {c.cyan}{pkg}{c.reset}.')
